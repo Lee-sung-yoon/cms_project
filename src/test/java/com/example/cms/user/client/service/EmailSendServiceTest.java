@@ -1,4 +1,4 @@
-package com.example.cms.user.client.service;
+//package com.example.cms.user.client.service;
 
 import com.example.cms.user.client.service.test.EmailSendService;
 import org.junit.jupiter.api.Test;
