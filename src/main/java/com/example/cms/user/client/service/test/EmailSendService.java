@@ -1,7 +1,7 @@
 package com.example.cms.user.client.service.test;
 
 import com.example.cms.user.client.MailgunClient;
-import com.example.cms.user.client.mailgun.SendMailForm;
+import com.example.cms.user.mailgun.SendMailForm;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

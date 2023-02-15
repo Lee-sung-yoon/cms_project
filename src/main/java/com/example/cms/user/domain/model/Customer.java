@@ -1,6 +1,6 @@
-package com.example.cms.domain.model;
+package com.example.cms.user.domain.model;
 
-import com.example.cms.domain.SignUpForm;
+import com.example.cms.user.domain.SignUpForm;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
 
@@ -11,6 +11,7 @@ import java.util.Locale;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
