@@ -1,7 +1,7 @@
-package com.example.cms.user.client.service.test;
+package com.example.cms.user.service;
 
-import com.example.cms.domain.SignUpForm;
-import com.example.cms.domain.model.Customer;
+import com.example.cms.user.domain.SignUpForm;
+import com.example.cms.user.domain.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

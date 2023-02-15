@@ -1,6 +1,6 @@
 package com.example.cms.user.client;
 
-import com.example.cms.user.client.mailgun.SendMailForm;
+import com.example.cms.user.mailgun.SendMailForm;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
