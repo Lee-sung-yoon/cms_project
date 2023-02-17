@@ -1,0 +1,46 @@
+
+### 회원가입 (고객)
+POST http://localhost:8081/signup/customer
+Content-Type: application/json
+
+{
+  "birth": "1995-08-06",
+  "email": "tjddbs1412@naver.com",
+  "name": "myName",
+  "password": "pw",
+  "phone": "01011112222"
+}
+
+### 이메일 인증 (고객)
+GET http://localhost:8081/signup/customer/verify?email=tjddbs1412@naver.com&code=
+
+### 로그인 (고객)
+POST http://localhost:8081/signIn/customer
+Content-Type: application/json
+
+{
+  "email": "tjddbs1412@naver.com",
+  "password": "pw"
+}
+
+### 회원 정보 조회 (고객)
+POST http://localhost:8081/customer/getInfo
+Content-Type: application/json
+X-AUTH_TOKEN:
+
+
+### 잔액 변경 (고객)
+POST http://localhost:8081/customer/balance
+Content-Type: application/json
+
+{
+  "from": "server",
+  "message": "돈 충전",
+  "money": 50000
+}
+
+########################
+
+### 회원가입 (셀러)
+
+### 로그인 (셀러)
