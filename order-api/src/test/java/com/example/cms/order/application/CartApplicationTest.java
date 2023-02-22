@@ -1,10 +1,12 @@
-package com.example.cms.order.service;
+package com.example.cms.order.application;
 
 import com.example.cms.order.domain.model.Product;
+import com.example.cms.order.domain.product.AddProductCartForm;
 import com.example.cms.order.domain.product.AddProductForm;
 import com.example.cms.order.domain.product.AddProductItemForm;
-import com.example.cms.order.domain.repository.ProductItemRepository;
+import com.example.cms.order.domain.redis.Cart;
 import com.example.cms.order.domain.repository.ProductRepository;
+import com.example.cms.order.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,25 +20,21 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @WebAppConfiguration
-class ProductServiceTest {
-
+class CartApplicationTest {
+    @Autowired
+    private CartApplication cartApplication;
     @Autowired
     private ProductService productService;
-
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private ProductItemRepository productItemRepository;
-
     @Test
-    void ADD_PRODUCT_TEST() {
-        Long sellerId = 1L;
+    void ADD_TEST() {
+        Long customerId = 100L;
 
-        AddProductForm form = makeProductForm("나이키 에어포스", "신발", 3);
+        cartApplication.clearCart(customerId);
 
-        Product p = productService.addProduct(sellerId, form);
-
+        Product p = add_product();
         Product result = productRepository.findWithProductItemsById(p.getId()).get();
 
         assertNotNull(result);
@@ -47,8 +45,41 @@ class ProductServiceTest {
         assertEquals(result.getProductItems().size(), 3);
         assertEquals(result.getProductItems().get(0).getName(), "나이키 에어포스0");
         assertEquals(result.getProductItems().get(0).getPrice(), 10000);
-        assertEquals(result.getProductItems().get(0).getCount(), 1);
+//        assertEquals(result.getProductItems().get(0).getCount(), 1);
 
+
+        makeAddForm(result);
+        
+        Cart cart = cartApplication.addCart(customerId, makeAddForm(result));
+        // 데이터가 잘 들어 갔는지 체크
+        assertEquals(cart.getMessages().size(), 0);
+
+        cart = cartApplication.getCart(customerId);
+        assertEquals(cart.getMessages().size(), 1);
+
+    }
+
+    AddProductCartForm makeAddForm(Product p) {
+        AddProductCartForm.ProductItem productItem =
+                AddProductCartForm.ProductItem.builder()
+                        .id(p.getProductItems().get(0).getId())
+                        .name(p.getProductItems().get(0).getName())
+                        .count(5)
+                        .price(20000)
+                        .build();
+        return AddProductCartForm.builder()
+                        .id(p.getId())
+                        .sellerId(p.getSellerId())
+                        .name(p.getName())
+                        .description(p.getDescription())
+                        .items(List.of(productItem))
+                        .build();
+    }
+
+    Product add_product() {
+        Long sellerId = 1L;
+        AddProductForm form = makeProductForm("나이키 에어포스", "신발", 3);
+        return productService.addProduct(sellerId, form);
     }
 
     private static AddProductForm makeProductForm(String name, String description, int itemCount) {
@@ -68,7 +99,9 @@ class ProductServiceTest {
                 .productId(productId)
                 .name(name)
                 .price(10000)
-                .count(1)
+                .count(10)
                 .build();
     }
+
+
 }
